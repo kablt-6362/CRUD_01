@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>todos</title>
+</head>
+<body>
+    <h1>할일목록</h1>
+    <a th:href="@{/todos/new}">new</a>
+    <br>
+    <div th:each="todo:${list}">
+        <p th:text="${todo.title}"></p>
+        <p th:text="${todo.content}"></p>
+    </div>
+</body>
+</html>
