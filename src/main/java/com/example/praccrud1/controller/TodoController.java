@@ -13,8 +13,11 @@ import java.util.List;
 
 @Controller
 public class TodoController {
-    TodoRepository repository = new TodoRepository();
 
+    private final TodoRepository repository;
+    public TodoController(TodoRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/todos")
     public String todos(Model model){

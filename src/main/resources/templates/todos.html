@@ -10,7 +10,7 @@
     <br>
 <!--    <div th:each="todo:${list}" th:text="${todo.id}">-->
     <div th:each="todo:${list}">
-        <p th:text="${todo.id}"></p>
+        <p th:text="${todo.title}"></p>
         <a th:href="@{/todos/detail/{id}(id=${todo.id})}">detail</a>
     </div>
 </body>
