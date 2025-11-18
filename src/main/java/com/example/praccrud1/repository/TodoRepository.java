@@ -14,7 +14,9 @@ public class TodoRepository {
     private Long id  =1L;
 
     public TodoDto save(TodoDto todo){
+        if(todo.getId()==null){
         todo.setId(id++);
+        }
         storage.put(todo.getId(),todo);
         return todo;
     }

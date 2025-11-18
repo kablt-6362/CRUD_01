@@ -52,4 +52,26 @@ public class TodoController {
         repository.delete(id);
         return "redirect:/todos";
     }
+
+    @GetMapping("/todos/edit/{id}")
+    public String edit(@PathVariable Long id,Model model){
+        TodoDto todo = repository.getById(id);
+        model.addAttribute("todo",todo);
+        return "edit";
+    }
+
+    @GetMapping("/todos/update/{id}")
+    public String update(@PathVariable Long id,
+                       @RequestParam String title,
+                       @RequestParam String content,
+                       @RequestParam(defaultValue = "false") Boolean completed,
+                       Model model){
+        // tododto객체를 새로생성해서 생성자 매개변수에 값을 넣어서 만들면 안될가
+        TodoDto todo = repository.getById(id);
+        todo.setTitle(title);
+        todo.setContent(content);
+        todo.setCompleted(completed);
+        repository.save(todo);
+        return "redirect:/todos/detail/"+id;
+    }
 }
