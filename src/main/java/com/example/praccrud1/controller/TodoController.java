@@ -30,9 +30,16 @@ public class TodoController {
     @GetMapping("/todos/create")
     public String create(@RequestParam String title, @RequestParam String content, Model model){
         TodoDto tododto = new TodoDto(null,title,content,false);
-//        TodoRepository repository = new TodoRepository();
+        //TodoRepository repository = new TodoRepository();
         TodoDto todo = repository.save(tododto);
         model.addAttribute("todo",todo);
-        return "create";
+        return "redirect:/todos";
+    }
+
+    @GetMapping("/todos/detail/{id}")
+    public String detail(@PathVariable Long id,Model model){
+        TodoDto todo = repository.getById(id);
+        model.addAttribute("todo",todo);
+        return "detail";
     }
 }

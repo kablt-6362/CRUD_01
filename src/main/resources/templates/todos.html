@@ -9,8 +9,8 @@
     <a th:href="@{/todos/new}">new</a>
     <br>
     <div th:each="todo:${list}">
-        <p th:text="${todo.title}"></p>
-        <p th:text="${todo.content}"></p>
+        <p th:text="${todo.id}"></p>
+        <a th:href="@{/todos/detail/{id}(id=${todo.id})}">detail</a>
     </div>
 </body>
 </html>

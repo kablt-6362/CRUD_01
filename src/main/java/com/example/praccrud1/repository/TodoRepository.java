@@ -21,4 +21,8 @@ public class TodoRepository {
         return new ArrayList<>(storage.values());
     }
 
+    public TodoDto getById(Long id){
+        return storage.get(id);
+    }
+
 }
