@@ -9,5 +9,6 @@
     <a th:href="@{/todos}">home</a>
     <p th:text="${todo.title}"></p>
     <p th:text="${todo.content}"></p>
+    <p th:text="${todo.completed? '완료':'미완료'}"></p>
 </body>
 </html>
