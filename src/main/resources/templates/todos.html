@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>todos</title>
-</head>
-<body>
-    <h1>할일목록</h1>
-    <a href="/todos/new">new</a>
-    <a href="/todos">home</a>
-    <br>
-    <form action="/todos/search">
-        <input type="text" name="keyword">
-        <input type="submit">
-    </form>
-<!--    <div th:each="todo:${list}" th:text="${todo.id}">-->
-    <div th:each="todo:${todos}">
-        <p th:text="${todo.title}"></p>
-        <a th:href="@{/todos/detail/{id}(id=${todo.id})}">detail</a>
-    </div>
-</body>
-</html>
+
+    <html lang="en"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/default}">
+
+        <div layout:fragment="content">
+            <h1>할일목록</h1>
+            <br>
+            <!--    <div th:each="todo:${list}" th:text="${todo.id}">-->
+            <div th:each="todo:${todos}">
+                <p th:text="${todo.title}"></p>
+                <a th:href="@{/todos/detail/{id}(id=${todo.id})}">detail</a>
+            </div>
+        </div>

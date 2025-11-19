@@ -38,4 +38,8 @@ public class TodoRepository {
                 .filter((todo)->todo.getTitle().contains(keyword)).toList();
     }
 
+    public List<TodoDto> findByCompleted(Boolean completed){
+        return storage.values().stream()
+                .filter((todo)->todo.getCompleted()==completed).toList();
+    }
 }
