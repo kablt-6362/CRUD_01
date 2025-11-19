@@ -21,8 +21,8 @@ public class TodoController {
 
     @GetMapping("/todos")
     public String todos(Model model){
-        List<TodoDto> list = repository.getAll();
-        model.addAttribute("list",list);
+        List<TodoDto> todos = repository.getAll();
+        model.addAttribute("todos",todos);
         return "todos";
     }
 
@@ -73,5 +73,12 @@ public class TodoController {
         todo.setCompleted(completed);
         repository.save(todo);
         return "redirect:/todos/detail/"+id;
+    }
+
+    @GetMapping("/todos/search")
+    public String search(@RequestParam String keyword,Model model){
+        List<TodoDto> todos = repository.findByTitleContaining(keyword);
+        model.addAttribute("todos",todos);
+        return "todos";
     }
 }

@@ -6,10 +6,15 @@
 </head>
 <body>
     <h1>할일목록</h1>
-    <a th:href="@{/todos/new}">new</a>
+    <a href="/todos/new">new</a>
+    <a href="/todos">home</a>
     <br>
+    <form action="/todos/search">
+        <input type="text" name="keyword">
+        <input type="submit">
+    </form>
 <!--    <div th:each="todo:${list}" th:text="${todo.id}">-->
-    <div th:each="todo:${list}">
+    <div th:each="todo:${todos}">
         <p th:text="${todo.title}"></p>
         <a th:href="@{/todos/detail/{id}(id=${todo.id})}">detail</a>
     </div>
