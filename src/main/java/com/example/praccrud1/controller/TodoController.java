@@ -114,7 +114,14 @@ public class TodoController {
 
     @GetMapping("/todos/detail/{id}/toggle")
     public String toggle(@PathVariable Long id,Model model){
-
+        try{
+            TodoDto todo =repository.getById(id).orElseThrow(()->new IllegalArgumentException("!!!"));
+            todo.setCompleted(!todo.getCompleted());
+            repository.save(todo);
+            return "redirect:/todos/detail/"+id;
+        }catch (IllegalArgumentException e){
+            return "redirect:/todos";
+        }
 
     }
 

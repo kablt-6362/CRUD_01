@@ -11,7 +11,7 @@
                     <span th:if="${todo.completed}" class="badge bg-success">완료</span>
                     <span th:unless="${todo.completed}" class="badge bg-warning">진행중</span>
                 </p>
-                <a th:href="@{/todos/detail/{id}/toggle(id=${todo.id})}"></a>
+                <a th:href="@{/todos/detail/{id}/toggle(id=${todo.id})}">완료여부변경</a>
                 <a th:href="@{/todos/delete/{id}(id=${todo.id})}" class="btn btn-warning">delete</a>
                 <a th:href="@{/todos/edit/{id}(id=${todo.id})}" class="btn btn-danger">edit</a>
             </div>
