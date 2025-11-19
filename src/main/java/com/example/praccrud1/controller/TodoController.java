@@ -41,9 +41,14 @@ public class TodoController {
 
     @GetMapping("/todos/detail/{id}")
     public String detail(@PathVariable Long id,Model model){
-        TodoDto todo = repository.getById(id);
-        model.addAttribute("todo",todo);
-        return "detail";
+//        TodoDto todo = repository.getById(id);
+        try{
+            TodoDto todo = repository.getById(id).orElseThrow(()-> new IllegalArgumentException("todo not found"));
+            model.addAttribute("todo",todo);
+            return "detail";
+        }catch(IllegalArgumentException e){
+            return "redirect:/todos";
+        }
     }
 
     @GetMapping("todos/delete/{id}")
@@ -55,9 +60,14 @@ public class TodoController {
 
     @GetMapping("/todos/edit/{id}")
     public String edit(@PathVariable Long id,Model model){
-        TodoDto todo = repository.getById(id);
+        //TodoDto todo = repository.getById(id);
+        try{
+         TodoDto todo = repository.getById(id).orElseThrow(()->new IllegalArgumentException("todo not found"));
         model.addAttribute("todo",todo);
         return "edit";
+        }catch(IllegalArgumentException e){
+            return "redirect:/todos";
+        }
     }
 
     @GetMapping("/todos/update/{id}")
@@ -67,12 +77,18 @@ public class TodoController {
                        @RequestParam(defaultValue = "false") Boolean completed,
                        Model model){
         // tododto객체를 새로생성해서 생성자 매개변수에 값을 넣어서 만들면 안될가
-        TodoDto todo = repository.getById(id);
-        todo.setTitle(title);
-        todo.setContent(content);
-        todo.setCompleted(completed);
-        repository.save(todo);
-        return "redirect:/todos/detail/"+id;
+        //TodoDto todo = repository.getById(id);
+        try{
+            TodoDto todo = repository.getById(id).orElseThrow(()->new IllegalArgumentException("todo not found"));
+            todo.setTitle(title);
+            todo.setContent(content);
+            todo.setCompleted(completed);
+            repository.save(todo);
+            return "redirect:/todos/detail/"+id;
+        }
+        catch(IllegalArgumentException e){
+            return "redirect:/todos";
+        }
     }
 
     @GetMapping("/todos/search")
@@ -94,6 +110,12 @@ public class TodoController {
         List<TodoDto> todos = repository.findByCompleted(true);
         model.addAttribute("todos",todos);
         return "/todos";
+    }
+
+    @GetMapping("/todos/detail/{id}/toggle")
+    public String toggle(@PathVariable Long id,Model model){
+
+
     }
 
 }
