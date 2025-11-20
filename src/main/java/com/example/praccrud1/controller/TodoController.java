@@ -5,10 +5,7 @@ import com.example.praccrud1.repository.TodoRepository;
 import com.example.praccrud1.tododto.TodoDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class TodoController {
     public String newTodo(){
         return "new";
     }
-    @GetMapping("/create")
+    @PostMapping
     public String create(@RequestParam String title, @RequestParam String content, Model model){
         TodoDto tododto = new TodoDto(null,title,content,false);
         //TodoRepository repository = new TodoRepository();
@@ -60,19 +57,19 @@ public class TodoController {
         return "redirect:/todos";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/update/{id}")
     public String edit(@PathVariable Long id,Model model){
         //TodoDto todo = repository.getById(id);
         try{
          TodoDto todo = repository.getById(id).orElseThrow(()->new IllegalArgumentException("todo not found"));
         model.addAttribute("todo",todo);
-        return "edit";
+        return "update";
         }catch(IllegalArgumentException e){
             return "redirect:/todos";
         }
     }
 
-    @GetMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public String update(@PathVariable Long id,
                        @RequestParam String title,
                        @RequestParam String content,
