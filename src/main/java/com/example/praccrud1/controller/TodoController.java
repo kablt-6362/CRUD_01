@@ -23,6 +23,9 @@ public class TodoController {
     @GetMapping
     public String todos(Model model){
         List<TodoDto> todos = todoService.getAll();
+        model.addAttribute("total",todoService.totalCount());
+        model.addAttribute("active",todoService.active());
+        model.addAttribute("completed",todoService.completed());
         model.addAttribute("todos",todos);
         return "todos";
     }
@@ -36,9 +39,14 @@ public class TodoController {
     public String create(
                          @ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes){
-        todoService.save(todo);
+        try{
+        todoService.createTodo(todo);
         redirectAttributes.addFlashAttribute("message","할 일 이 추가되었습니다");
         return "redirect:/todos";
+        }catch(IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("error",e.getMessage());
+            return "redirect:/todos/new";
+        }
     }
 
     @GetMapping("/detail/{id}")
@@ -81,8 +89,9 @@ public class TodoController {
                          @ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes){
         try{
-            todo.setId(id);
-            todoService.save(todo);
+//            todo.setId(id);
+//            todoService.createTodo(todo);
+            todoService.updateTodoById(id,todo);
             redirectAttributes.addFlashAttribute("message","할 일이 수정되었습니다");
             return "redirect:/todos/detail/"+id;
         }
@@ -118,12 +127,19 @@ public class TodoController {
         try{
             TodoDto todo =todoService.getById(id);
             todo.setCompleted(!todo.getCompleted());
-            todoService.save(todo);
+            todoService.createTodo(todo);
             return "redirect:/todos/detail/"+id;
         }catch (IllegalArgumentException e){
             return "redirect:/todos";
         }
-
     }
+
+    @GetMapping("/deleteCompleted")
+    public String deleteCompleted(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("message","완료된 할일 삭제");
+         todoService.deleteCompleted();
+         return "redirect:/todos";
+    }
+
 
 }

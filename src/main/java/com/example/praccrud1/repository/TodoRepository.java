@@ -39,4 +39,10 @@ public class TodoRepository {
         return storage.values().stream()
                 .filter((todo)->todo.getCompleted()==completed).toList();
     }
+
+    public void deleteCompleted(){
+        storage.entrySet().removeIf(
+                item->item.getValue().getCompleted()
+        );
+    }
 }

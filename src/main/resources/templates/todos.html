@@ -5,6 +5,19 @@
     layout:decorate="~{layout/default}">
 
         <div layout:fragment="content">
+            <div>
+                <div>
+                    전체 할일: <p th:text="${total}"></p>
+                 </div>
+                <div>
+                    미완료 수: <p th:text="${active}"></p>
+                </div>
+                <div>
+                    완료된 수: <p th:text="${completed}"></p>
+                </div>
+            </div>
+
+
            <table class="table table-striped">
                <thead>
                    <th>Id</th>
