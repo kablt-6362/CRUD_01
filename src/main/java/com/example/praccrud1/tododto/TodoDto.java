@@ -13,6 +13,8 @@ public class TodoDto {
         this.completed = completed;
     }
 
+    public TodoDto(){}
+
     public Long getId() {
         return id;
     }

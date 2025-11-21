@@ -27,17 +27,16 @@ public class TodoController {
     }
 
     @GetMapping("/new")
-    public String newTodo(){
-        return "new";
+    public String newTodo(Model model){
+        model.addAttribute("todo",new TodoDto());
+        return "form";
     }
-    @PostMapping
-    public String create(@RequestParam String title, @RequestParam String content, Model model, RedirectAttributes redirectAttributes){
-        TodoDto tododto = new TodoDto(null,title,content,false
-        );
-        //TodoRepository repository = new TodoRepository();
+    @PostMapping()
+    public String create(
+                         @ModelAttribute TodoDto todo,
+                         RedirectAttributes redirectAttributes){
+        repository.save(todo);
         redirectAttributes.addFlashAttribute("message","할 일 이 추가되었습니다");
-        TodoDto todo = repository.save(tododto);
-        model.addAttribute("todo",todo);
         return "redirect:/todos";
     }
 
@@ -69,7 +68,7 @@ public class TodoController {
         try{
          TodoDto todo = repository.getById(id).orElseThrow(()->new IllegalArgumentException("todo not found"));
         model.addAttribute("todo",todo);
-        return "update";
+        return "form";
         }catch(IllegalArgumentException e){
             return "redirect:/todos";
         }
@@ -77,16 +76,11 @@ public class TodoController {
 
     @PostMapping("/update/{id}")
     public String update(@PathVariable Long id,
-                       @RequestParam String title,
-                       @RequestParam String content,
-                       @RequestParam(defaultValue = "false") Boolean completed,
                        Model model,
+                         @ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes){
         try{
-            TodoDto todo = repository.getById(id).orElseThrow(()->new IllegalArgumentException("todo not found"));
-            todo.setTitle(title);
-            todo.setContent(content);
-            todo.setCompleted(completed);
+            todo.setId(id);
             repository.save(todo);
             redirectAttributes.addFlashAttribute("message","할 일이 수정되었습니다");
             return "redirect:/todos/detail/"+id;
